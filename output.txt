@@ -1,0 +1,15 @@
+Query Term : cancer
+File: New Text Document.txt
+File: New Text Document (4).txt
+File: New Text Document (7).txt
+File: New Text Document (2).txt
+--------- 
+ --------------
+Query Term : male
+File: New Text Document (5).txt
+--------- 
+ --------------
+Query Term : fluid
+File: New Text Document (5).txt
+--------- 
+ --------------
