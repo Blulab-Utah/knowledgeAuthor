@@ -66,7 +66,6 @@ public class copyModifierClasses {
                 manager.addAxiom(domain, ax);
             }
 
-            //TODO: Class hierarchy isn't being preserved in copy must debug...
             //Get sublcass axioms to copy over to domain class
             Set<OWLClassExpression> exps = sub.getSuperClasses(modifier);
             for(OWLClassExpression e : exps){
