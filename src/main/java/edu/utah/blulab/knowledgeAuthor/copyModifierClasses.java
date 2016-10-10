@@ -1,3 +1,5 @@
+package edu.utah.blulab.knowledgeAuthor;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 
@@ -43,7 +45,7 @@ public class copyModifierClasses {
         IRI domainIRI = domain.getOntologyID().getOntologyIRI();
         //System.out.println(domainIRI);
 
-        //OWLClass modCls = factory.getOWLClass(IRI.create(OntologyConstants.CONTEXT_BASE_URI+"#"+modStr));
+        //OWLClass modCls = factory.getOWLClass(IRI.create(edu.utah.blulab.knowledgeAuthor.OntologyConstants.CONTEXT_BASE_URI+"#"+modStr));
         OWLClass modCls = factory.getOWLClass(IRI.create(modStr));
 
         //System.out.println("Copy all classes under " + modCls);
