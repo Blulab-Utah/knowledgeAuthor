@@ -101,9 +101,15 @@ public class copyModifierClasses {
                     //OWLObjectPropertyExpression relation = objprop.getProperty();
                     //System.out.println(modObj.getIRI().getNamespace());
                 }if(e.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)){
-                    //System.out.println("This is a possible superclass expression...");
-                    String superClsName = e.asOWLClass().getIRI().getShortForm();
-                    OWLClass superCls = factory.getOWLClass(IRI.create(domainIRI + "#" + superClsName));
+                    //System.out.println(e.asOWLClass().getIRI().getNamespace());
+                    OWLClass superCls = null;
+                    if(e.asOWLClass().getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI+"#")){
+                        superCls = e.asOWLClass();
+                    }else{
+                        String superClsName = e.asOWLClass().getIRI().getShortForm();
+                        superCls = factory.getOWLClass(IRI.create(domainIRI + "#" + superClsName));
+                    }
+
                     OWLAxiom subAxiom = factory.getOWLSubClassOfAxiom(domainSubCls, superCls);
                     manager.addAxiom(domain, subAxiom);
                 }
