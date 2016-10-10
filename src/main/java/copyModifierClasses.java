@@ -56,8 +56,28 @@ public class copyModifierClasses {
             //System.out.println(className);
             OWLClass domainSubCls = factory.getOWLClass(IRI.create(domainIRI + "#"+ className));
             //System.out.println(domainSubCls.toString());
-            OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modCls);
-            manager.addAxiom(domain, subAx);
+
+            if(modCls.getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI+"#")){
+                OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modCls);
+                manager.addAxiom(domain, subAx);
+            }else{
+                String modName = modCls.getIRI().getShortForm();
+                OWLClass modDomainCls = factory.getOWLClass(IRI.create(domainIRI + "#" + modName));
+                OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modDomainCls);
+                manager.addAxiom(domain, subAx);
+
+                Set<OWLClassExpression> parentClasses = modCls.getSuperClasses(modifier);
+                for(OWLClassExpression exp: parentClasses){
+                    if(exp.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)){
+                        if(exp.asOWLClass().getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI + "#")){
+                            OWLAxiom parentSubAxiom = factory.getOWLSubClassOfAxiom(modDomainCls, exp.asOWLClass());
+                            manager.addAxiom(domain, parentSubAxiom);
+                        }
+                    }
+                }
+            }
+
+
 
             //Get any annotation properties on modifier subclass
             Set<OWLAnnotation> annProps = sub.getAnnotations(modifier);
