@@ -1,1 +1,6 @@
+<<<<<<< HEAD
+=======
+*.iml
+.idea/
+>>>>>>> ff72835a2f043b191d484083f36ea99a64fdc87d
 /target/

@@ -1,3 +1,5 @@
+package edu.utah.blulab.knowledgeAuthor;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 
@@ -43,7 +45,7 @@ public class copyModifierClasses {
         IRI domainIRI = domain.getOntologyID().getOntologyIRI();
         //System.out.println(domainIRI);
 
-        //OWLClass modCls = factory.getOWLClass(IRI.create(OntologyConstants.CONTEXT_BASE_URI+"#"+modStr));
+        //OWLClass modCls = factory.getOWLClass(IRI.create(edu.utah.blulab.knowledgeAuthor.OntologyConstants.CONTEXT_BASE_URI+"#"+modStr));
         OWLClass modCls = factory.getOWLClass(IRI.create(modStr));
 
         //System.out.println("Copy all classes under " + modCls);
@@ -56,8 +58,28 @@ public class copyModifierClasses {
             //System.out.println(className);
             OWLClass domainSubCls = factory.getOWLClass(IRI.create(domainIRI + "#"+ className));
             //System.out.println(domainSubCls.toString());
-            OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modCls);
-            manager.addAxiom(domain, subAx);
+
+            if(modCls.getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI+"#")){
+                OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modCls);
+                manager.addAxiom(domain, subAx);
+            }else{
+                String modName = modCls.getIRI().getShortForm();
+                OWLClass modDomainCls = factory.getOWLClass(IRI.create(domainIRI + "#" + modName));
+                OWLAxiom subAx = factory.getOWLSubClassOfAxiom(domainSubCls, modDomainCls);
+                manager.addAxiom(domain, subAx);
+
+                Set<OWLClassExpression> parentClasses = modCls.getSuperClasses(modifier);
+                for(OWLClassExpression exp: parentClasses){
+                    if(exp.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)){
+                        if(exp.asOWLClass().getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI + "#")){
+                            OWLAxiom parentSubAxiom = factory.getOWLSubClassOfAxiom(modDomainCls, exp.asOWLClass());
+                            manager.addAxiom(domain, parentSubAxiom);
+                        }
+                    }
+                }
+            }
+
+
 
             //Get any annotation properties on modifier subclass
             Set<OWLAnnotation> annProps = sub.getAnnotations(modifier);
@@ -66,7 +88,6 @@ public class copyModifierClasses {
                 manager.addAxiom(domain, ax);
             }
 
-            //TODO: Class hierarchy isn't being preserved in copy must debug...
             //Get sublcass axioms to copy over to domain class
             Set<OWLClassExpression> exps = sub.getSuperClasses(modifier);
             for(OWLClassExpression e : exps){
@@ -102,9 +123,15 @@ public class copyModifierClasses {
                     //OWLObjectPropertyExpression relation = objprop.getProperty();
                     //System.out.println(modObj.getIRI().getNamespace());
                 }if(e.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)){
-                    //System.out.println("This is a possible superclass expression...");
-                    String superClsName = e.asOWLClass().getIRI().getShortForm();
-                    OWLClass superCls = factory.getOWLClass(IRI.create(domainIRI + "#" + superClsName));
+                    //System.out.println(e.asOWLClass().getIRI().getNamespace());
+                    OWLClass superCls = null;
+                    if(e.asOWLClass().getIRI().getNamespace().equals(OntologyConstants.CONTEXT_BASE_URI+"#")){
+                        superCls = e.asOWLClass();
+                    }else{
+                        String superClsName = e.asOWLClass().getIRI().getShortForm();
+                        superCls = factory.getOWLClass(IRI.create(domainIRI + "#" + superClsName));
+                    }
+
                     OWLAxiom subAxiom = factory.getOWLSubClassOfAxiom(domainSubCls, superCls);
                     manager.addAxiom(domain, subAxiom);
                 }
