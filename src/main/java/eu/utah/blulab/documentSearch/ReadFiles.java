@@ -49,6 +49,7 @@ public class ReadFiles {
 			for (File fl : files) {
 				//if(fl.getName().equalsIgnoreCase("write.lock")){
 				//System.out.println("read "+fl.getName());
+				System.out.println("read "+fl.getAbsolutePath());
 				//reader = new BufferedReader(new InputStreamReader(new FileInputStream(fl)));
 				String entireFileText = new Scanner(fl)
 					    .useDelimiter("\\A").next();
