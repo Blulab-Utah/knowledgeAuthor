@@ -44,14 +44,23 @@ public class ReadFiles {
 	public void read(String path) throws IOException{
 		File dir = new File(path);
 		//BufferedReader reader;
+		System.out.print(path);
 		File[] files = dir.listFiles();
 		if (files != null) {
 			for (File fl : files) {
 				//if(fl.getName().equalsIgnoreCase("write.lock")){
 				//System.out.println("read "+fl.getName());
 				//reader = new BufferedReader(new InputStreamReader(new FileInputStream(fl)));
-				String entireFileText = new Scanner(fl)
-					    .useDelimiter("\\A").next();
+				//String entireFileText = new Scanner(fl)
+				//	    .useDelimiter("\\A").next();
+
+				FileInputStream fis = new FileInputStream(fl);
+				byte[] data = new byte[(int) fl.length()];
+				fis.read(data);
+				fis.close();
+
+				String entireFileText = new String(data, "UTF-8");
+
 				BreakIterator border = BreakIterator.getSentenceInstance(Locale.US);
 				border.setText(entireFileText );
 				int start = border.first();
