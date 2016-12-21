@@ -9,6 +9,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import eu.utah.blulab.documentSearch.SearchDocs;
 
 public class CreateIndex {
 
@@ -22,7 +23,7 @@ public class CreateIndex {
 	      SearchDocs searchDocs = new SearchDocs();
 	         findDocuments = new FindDocuments();
 	         readFiles.Indexer(findDocuments.indexDir,findDocuments.analyzer );
-	         readFiles.read(findDocuments.dataDir);
+	         readFiles.readData(findDocuments.dataDir);
 
 	   }
 }

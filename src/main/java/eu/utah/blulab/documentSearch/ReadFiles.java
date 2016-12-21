@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import au.com.bytecode.opencsv.*;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -82,6 +83,7 @@ public class ReadFiles {
 				    ft.setTokenized( true );
 	
 					document.add(new Field("fieldname", entireFileText.substring(start,end), ft));
+					document.add(new StringField("Sentence", entireFileText.substring(start,end), Store.YES));
 					writer.addDocument(document);
 					senCount++;
 					//reader.close();
@@ -118,4 +120,65 @@ public class ReadFiles {
 		}
 		return terms;
 	}
+
+	public void readData(String path) throws IOException{
+
+
+				BufferedReader br = null;
+				String line = "";
+				String cvsSplitBy = ",";
+
+				try {
+					CSVReader reader = new CSVReader(new FileReader(path));
+					String[] notEvent;
+					int lineNumber = 0;
+					while ((notEvent = reader.readNext()) != null) {
+
+						BreakIterator border = BreakIterator.getSentenceInstance(Locale.US);
+						border.setText(notEvent[10]);
+						int start = border.first();
+						int senCount =0;
+						//iterate, creating sentences out of all the Strings between the given boundaries
+						for (int end = border.next(); end != BreakIterator.DONE; start = end, end = border.next()) {
+							//System.out.println(text.substring(start,end));
+							Document document = new Document();
+							document.add(new StringField("title", notEvent[0]+"---"+"Sen"+senCount, Store.YES));
+							//StringField field = new StringField("fieldname", entireFileText.substring(start,end),Field.Store.NO);
+
+							FieldType ft = new FieldType();
+							ft.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS );
+							ft.setStoreTermVectors( true );
+							ft.setStoreTermVectorOffsets( true );
+							ft.setStoreTermVectorPayloads( true );
+							ft.setStoreTermVectorPositions( true );
+							ft.setTokenized( true );
+
+							document.add(new Field("fieldname", notEvent[10].substring(start,end), ft));
+							document.add(new StringField("Sentence", notEvent[10].substring(start,end), Store.YES));
+							writer.addDocument(document);
+							senCount++;
+							//reader.close();
+						}
+
+					}
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					if (br != null) {
+						try {
+							br.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+
+
+		writer.close();
+			}
+
+
 }

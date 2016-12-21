@@ -19,8 +19,8 @@ import org.apache.lucene.index.*;
 
 public class FindDocuments {
 	public String home =new File("").getAbsolutePath();
-	public String indexDir =home.concat("/index");
-	public String dataDir = home.concat("/docs");
+	public String indexDir =home.concat("/index2");
+	public String dataDir = "F:\\BMI-RA\\MIMIC Data\\NOTEEVENTS.csv";
 	public String termPath=home.concat("/queryTerms.txt");
 
 	StandardAnalyzer analyzer = new StandardAnalyzer();
@@ -73,9 +73,12 @@ public class FindDocuments {
 			for(ScoreDoc scoreDoc : hits.scoreDocs) {
 				Document doc = searchDocs.getDocument(scoreDoc);
 
-				System.out.println("File: "
+				System.out.println("Subject_Id "
 						+ doc.get("title"));
-
+				System.out.println("Term index in Sentence: "
+						+ doc.get("Sentence"));
+				System.out.println("Term index in Sentence: "
+						+ doc.get("Sentence").indexOf(q));
 				Terms tv = ir.getTermVector( scoreDoc.doc , "fieldname" );
 				TermsEnum terms1 = tv.iterator();
 				PostingsEnum p = null;
@@ -89,6 +92,7 @@ public class FindDocuments {
 								int pos = p.nextPosition();   // Always returns -1!!!
 								BytesRef data = p.getPayload();
 								System.out.println("Term Position"+":"+ pos);
+								System.out.println();
 							}
 						}
 					} 
