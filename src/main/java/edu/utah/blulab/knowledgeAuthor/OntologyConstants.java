@@ -24,6 +24,14 @@ public class OntologyConstants {
         public static final String SUBJ_EXP = OntologyConstants.TERM_MAP_URI + "#subjectiveExpression";
         public static final String WINDOW = OntologyConstants.CONTEXT_BASE_URI + "#windowSize";
 
+        public static final String HAS_PSEUDO = OntologyConstants.CONTEXT_BASE_URI + "#hasPseudo";
+        public static final String HAS_TERMINATION = OntologyConstants.CONTEXT_BASE_URI + "#hasTermination";
+        public static final String PSEUDOMODIFIER = OntologyConstants.CONTEXT_BASE_URI + "#PseudoModifier";
+
+        public static final String ENGLISH_ACTION = OntologyConstants.CONTEXT_BASE_URI + "#hasActionEn";
+
         public static final String[] ANNOTATION_PROPS = {PROP_LABEL, PREF_TERM, SYNONYM, MISSPELLING, REGEX, ABBREV, ALT_CODE,
                 CODE, DEFINITION, SEMANTIC_TYPE, SUBJ_EXP, WINDOW};
+
+        public static final String IS_DEFAULT = OntologyConstants.CONTEXT_BASE_URI + "#isDefaultValue";
 }
