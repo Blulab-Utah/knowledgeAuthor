@@ -98,8 +98,6 @@ public class FindDocuments {
 					" documents found. Time :" + (endTime - startTime)+" ms");
 			System.out.println("--------- \n --------------");
 		}
-
-
 	}
 }
 
