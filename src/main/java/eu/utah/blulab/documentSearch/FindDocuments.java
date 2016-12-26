@@ -19,7 +19,7 @@ import org.apache.lucene.index.*;
 
 public class FindDocuments {
 	public String home =new File("").getAbsolutePath();
-	public String indexDir =home.concat("/index2");
+	public String indexDir =home.concat("/index3");
 	public String dataDir = "F:\\BMI-RA\\MIMIC Data\\NOTEEVENTS.csv";
 	public String termPath=home.concat("/queryTerms.txt");
 

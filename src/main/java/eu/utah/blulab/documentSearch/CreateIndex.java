@@ -14,7 +14,7 @@ import eu.utah.blulab.documentSearch.SearchDocs;
 public class CreateIndex {
 
 	   public String home =new File("").getAbsolutePath();
-	   public String indexDir =home.concat("/senIndex");
+	   public String indexDir =home.concat("/index3");
 	   
 	   StandardAnalyzer analyzer = new StandardAnalyzer();
 	   public static void main(String[] args) throws ParseException, IOException {

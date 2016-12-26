@@ -141,6 +141,8 @@ public class ReadFiles {
 						//iterate, creating sentences out of all the Strings between the given boundaries
 						for (int end = border.next(); end != BreakIterator.DONE; start = end, end = border.next()) {
 							//System.out.println(text.substring(start,end));
+							String[] sen = new FindSentence().getSentence(notEvent[10].substring(start,end));
+							for(int i=0; i< sen.length;i++){
 							Document document = new Document();
 							document.add(new StringField("title", notEvent[0]+"---"+"Sen"+senCount, Store.YES));
 							//StringField field = new StringField("fieldname", entireFileText.substring(start,end),Field.Store.NO);
@@ -154,10 +156,11 @@ public class ReadFiles {
 							ft.setTokenized( true );
 
 							document.add(new Field("fieldname", notEvent[10].substring(start,end), ft));
-							document.add(new StringField("Sentence", notEvent[10].substring(start,end), Store.YES));
+							document.add(new StringField("Sentence", sen[i], Store.YES));
 							writer.addDocument(document);
 							senCount++;
 							//reader.close();
+							}
 						}
 
 					}
