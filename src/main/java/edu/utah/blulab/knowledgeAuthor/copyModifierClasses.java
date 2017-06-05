@@ -29,7 +29,7 @@ public class copyModifierClasses {
             ArrayList<String> classList = new ArrayList<String>();
             for(int i = 1; i<args.length; i++){
                 String str = args[i];
-                //classList.add(str);
+                classList.add(str);
                 ArrayList<String> ancestry = new ArrayList<String>();
                 getVariableList(factory.getOWLClass(IRI.create(str)), new ArrayList<OWLClass>(), ancestry,
                         manager, factory);

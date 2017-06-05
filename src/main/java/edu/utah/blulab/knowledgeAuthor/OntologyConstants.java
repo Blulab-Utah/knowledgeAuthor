@@ -9,6 +9,8 @@ public class OntologyConstants {
         public static final String MODIFIER_URI = "http://blulab.chpc.utah.edu/ontologies/v2/Modifier.owl";
         public static final String CONTEXT_BASE_URI = "http://blulab.chpc.utah.edu/ontologies/v2/ConText.owl";
         public static final String TERM_MAP_URI = "http://blulab.chpc.utah.edu/ontologies/TermMapping.owl";
+        public static final String SECTION_URI = "http://blulab.chpc.utah.edu/ontologies/v2/DocumentSection.owl";
+        public static final String SEMANTIC_TYPE_URI = "http://blulab.chpc.utah.edu/ontologies/v2/SemanticType.owl";
 
         public static final String PROP_LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
 
